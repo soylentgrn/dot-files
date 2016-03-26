@@ -1,0 +1,19 @@
+
+. ~/.zsh/prompt # prompt config
+. ~/.zsh/options # zsh options
+. ~/.zsh/completion # tab completion config
+. ~/.zsh/aliases # shell aliases
+. ~/.zsh/git # git aliases
+. ~/.zsh/ruby # ruby env vars and version management
+
+# Env vars
+if [ $(uname -s) = 'Darwin' ]; then
+  if [ -d "/Applications/VMware Fusion.app/Contents/Library" ]; then
+    export PATH="$PATH:/Applications/VMware Fusion.app/Contents/Library"
+  fi
+  export PATH=$PATH:/Users/msean/Documents/scripts/mac
+else
+  export PATH="$PATH:$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
+fi
+export PATH="$PATH:$HOME/.rvm/bin"
+export PATH=$PATH:$HOME/bin

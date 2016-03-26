@@ -1,0 +1,16 @@
+
+setopt prompt_subst # Expand parameters, etc, in the prompt variables.
+
+tilde_or_pwd() {
+  echo $PWD | sed -e "s/\/Users\/$USER/~/"
+}
+
+ruby_version() {
+  #chruby_auto
+  ruby -v | awk '{print $2}'
+}
+autoload -U colors && colors
+#export PROMPT=$'%{\e[0;%(?.0.31)m%}>%{\e[0m%} '
+local ret_status="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
+export PROMPT='[%*] ${ret_status} %{$reset_color%}'
+export RPROMPT=$'%{\e[0;90m%}$(ruby_version) $(tilde_or_pwd)$(git_cwd_info)%{\e[0m%}'

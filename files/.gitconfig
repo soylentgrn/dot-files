@@ -1,0 +1,16 @@
+[user]
+	email = soylentgrn@gmail.com
+	name = Sean Murphy
+[color]
+	ui = auto
+[core]
+	excludesfile = ~/.gitignore
+[alias]
+	co = checkout
+	br = branch
+	st = status -s
+	cm = commit
+[github]
+        user = soylentgrn
+[push]
+	default = simple
