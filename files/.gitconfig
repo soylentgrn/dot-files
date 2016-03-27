@@ -13,4 +13,4 @@
 [github]
         user = soylentgrn
 [push]
-	default = simple
+	default = matching
