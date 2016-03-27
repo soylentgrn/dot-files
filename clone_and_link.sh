@@ -1,17 +1,17 @@
 #!/bin/bash
 pushd "$HOME"
 
-  if [ -d ".my-dot-files" ]; then
-    pushd ".my-dot-files"
+  if [ -d ".dot-files" ]; then
+    pushd ".dot-files"
       git smart-pull
     popd
   else
-    git clone "git://github.com/soylentgrn/my-dot-files.git" ".my-dot-files"
+    git clone "git://github.com/soylentgrn/dot-files.git" ".dot-files"
   fi
 
-  ls -1d .my-dot-files/files/* .my-dot-files/files/.* | while read f; do
-    [ "$f" == '.my-dot-files/files/.' ] ||
-    [ "$f" == '.my-dot-files/files/..' ] ||
+  ls -1d .dot-files/files/* .dot-files/files/.* | while read f; do
+    [ "$f" == '.dot-files/files/.' ] ||
+    [ "$f" == '.dot-files/files/..' ] ||
     ln -vsf "$f" .
   done
 
