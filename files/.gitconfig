@@ -2,7 +2,7 @@
 	email = soylentgrn@gmail.com
 	name = Sean Murphy
 [color]
-	ui = auto
+	ui = always
 [core]
 	excludesfile = ~/.gitignore
 [alias]

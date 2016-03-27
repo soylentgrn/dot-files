@@ -1,0 +1,8 @@
+#!/usr/bin/ruby
+
+remote = `git config --get remote.origin.url`.chomp
+project = remote.sub(%r{.*?([^/:]+/[^/.]+)(.git)?$}, '\1')
+
+branch = `cat "$(git rev-parse --git-dir 2>/dev/null)/HEAD"`.chomp.sub(%r{^.*refs/heads/}, '')
+
+exec "open https://github.com/#{project}/tree/#{branch}"
