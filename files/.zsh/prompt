@@ -12,5 +12,5 @@ ruby_version() {
 autoload -U colors && colors
 
 local ret_status="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
-export PROMPT='[%*] ${ret_status} %{$reset_color%}'
+export PROMPT='%{$fg_bold[grey]%}[%*]%{$reset_color%} %{$fg[cyan]%}%m%{$reset_color%} ${ret_status} '
 export RPROMPT=$'%{\e[0;90m%}$(ruby_version) $(tilde_or_pwd)$(git_cwd_info)%{\e[0m%}'
