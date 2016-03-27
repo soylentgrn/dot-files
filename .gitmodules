@@ -1,0 +1,9 @@
+[submodule "files/.vim/bundle/puppet"]
+	path = files/.vim/bundle/puppet
+	url = git://github.com/rodjek/vim-puppet.git
+[submodule "files/.vim/bundle/syntastic"]
+	path = files/.vim/bundle/syntastic
+	url = git://github.com/scrooloose/syntastic.git
+[submodule "files/.vim/bundle/tabular"]
+	path = files/.vim/bundle/tabular
+	url = git://github.com/godlygeek/tabular.git
