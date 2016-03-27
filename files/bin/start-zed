@@ -1,0 +1,6 @@
+#!/bin/bash
+VMPATH="/Users/msean/Documents/Virtual Machines/"
+
+vmrun start "${VMPATH}/zed.vmwarevm/zed.vmx"
+vmrun start "${VMPATH}/Target-1.vmwarevm/Target-1.vmx"
+vmrun start "${VMPATH}/Target-2.vmwarevm/Target-2.vmx"
