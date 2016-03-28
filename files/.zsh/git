@@ -30,7 +30,7 @@ gca() {
 }
 alias gcam='gca --amend'
 alias gch='git cherry-pick'
-alias gcm='git commit -v'
+alias gcm='git commit -v --amend'
 alias gco='git checkout'
 alias gcop='gco -p'
 alias gd='git diff -M'
