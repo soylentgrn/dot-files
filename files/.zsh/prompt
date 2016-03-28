@@ -17,7 +17,7 @@ local ret_status="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
 if [[ `hostname -f` == *"stage"* ]]; then
   export PROMPT='%{$fg_bold[grey]%}[%*]%{$reset_color%} %{$fg[red]%}%m $(git_cwd_info) ${ret_status}%{$reset_color%} '
 else
-  export PROMPT='%{$fg_bold[grey]%}[%*]%{$reset_color%} %{$fg[cyan]%}%m $(git_cwd_info) ${ret_status}%{$reset_color%} '
+  export PROMPT='%{$fg_bold[grey]%}[%*]%{$reset_color%} %{$fg[cyan]%}%m$(git_cwd_info) ${ret_status}%{$reset_color%} '
 fi
 
 export RPROMPT=$'%{\e[0;90m%}$(ruby_version) $(tilde_or_pwd)%{\e[0m%}'

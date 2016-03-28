@@ -69,7 +69,7 @@ function nonzero_return() {
 if [[ `hostname -f` == *"stage"* ]]; then
   HOST_COLOR=${RED}
 else
-  HOST_COLOR=${GREEN}
+  HOST_COLOR=${CYAN}
 fi
   
 set_bash_prompt() {
