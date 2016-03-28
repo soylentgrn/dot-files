@@ -5,3 +5,7 @@
 :verbose: true
 gem: --no-rdoc --no-ri
 benchmark: false
+sources:
+- http://gems.rubyforge.org/
+- http://rubygems.org/
+- https://deploy:Uk2Vyy3MoH8k2FJJaVEE@zombie-builds.vca.vmware.com/gems
