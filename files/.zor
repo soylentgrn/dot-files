@@ -1,0 +1,22 @@
+---
+:version: false
+:stub: false
+:help: false
+:load-plugins:
+  - vmware_zed_plugins
+  - vchs_zed_plugins
+:log-level: :debug
+:engine-api: localhost:8080
+:source-folder: .
+commands:
+  :_doc: {}
+  :init-stub-file: {}
+  :list-source: {}
+  :list-plugins: {}
+  :list-plugin-methods: {}
+  :compile: {}
+  :load-action: {}
+  :init-source: {}
+  :run: {}
+  :ruby-run: {}
+  :engine-run: {}
