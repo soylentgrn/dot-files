@@ -16,6 +16,10 @@ alias sub='subl -n'
 alias b='bundle exec'
 alias vi='vim'
 
+if [ -e /tools-export/scripts/functions/pmpcli_rest ]; then
+  alias get-password='/tools-export/scripts/functions/pmpcli_rest'
+fi
+
 cd() {
   builtin cd "$@" && ls
 }
