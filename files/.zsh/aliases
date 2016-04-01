@@ -16,8 +16,12 @@ alias sub='subl -n'
 alias b='bundle exec'
 alias vi='vim'
 
-if [ -e /tools-export/scripts/functions/pmpcli_rest ]; then
-  alias get-password='/tools-export/scripts/functions/pmpcli_rest'
+if [[ `hostname -f` =~ (d0p1|d2p3)oss-mgmt-linjump.prod.vpc.vmw ]]; then 
+  alias vcimglbl='ssh postgres@d0p1tlm-mgmt-vcimglbl-vpg-a'
+  alias vcimpod='ssh postgres@d0p1tlm-mgmt-vcimpod-vpg-a'
+  if [ -e /tools-export/scripts/functions/pmpcli_rest ]; then
+    alias get-password='/tools-export/scripts/functions/pmpcli_rest'
+  fi
 fi
 
 cd() {
