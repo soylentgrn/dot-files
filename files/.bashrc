@@ -9,6 +9,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 bind "set show-all-if-ambiguous On"
+set horizontal-scroll-mode Off
 
 # VMware Fusion
 if [ -d "/Applications/VMware Fusion.app/Contents/Library" ]; then
