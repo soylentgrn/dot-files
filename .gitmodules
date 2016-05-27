@@ -1,15 +1,20 @@
 [submodule "files/.vim/bundle/puppet"]
 	path = files/.vim/bundle/puppet
 	url = git://github.com/rodjek/vim-puppet.git
+        branch = master
 [submodule "files/.vim/bundle/syntastic"]
 	path = files/.vim/bundle/syntastic
 	url = git://github.com/scrooloose/syntastic.git
+        branch = master
 [submodule "files/.vim/bundle/tabular"]
 	path = files/.vim/bundle/tabular
 	url = git://github.com/godlygeek/tabular.git
+        branch = master
 [submodule "files/.vim/bundle/vim-ruby"]
 	path = files/.vim/bundle/vim-ruby
 	url = git://github.com/vim-ruby/vim-ruby
+	branch = master
 [submodule "files/.vim/bundle/zed"]
 	path = files/.vim/bundle/zed
 	url = git@github.com:VMop/zed.vim.git
+        branch = master
