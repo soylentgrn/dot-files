@@ -4,7 +4,7 @@ pushd "$HOME"
   if [ -d ".dot-files" ]; then
     pushd ".dot-files"
       git smart-pull
-      git submodule update --recursive
+      git submodule update
     popd
   else
     git clone --recursive "git://github.com/soylentgrn/dot-files.git" ".dot-files"
