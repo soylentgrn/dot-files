@@ -10,3 +10,6 @@
 [submodule "files/.vim/bundle/vim-ruby"]
 	path = files/.vim/bundle/vim-ruby
 	url = git://github.com/vim-ruby/vim-ruby
+[submodule "files/.vim/bundle/zed"]
+	path = files/.vim/bundle/zed
+	url = git@github.com:VMop/zed.vim.git
