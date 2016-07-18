@@ -6,12 +6,12 @@ set showbreak=+++               " Wrap-broken line prefix
 set textwidth=100               " Line wrap (number of cols)
 set showmatch                   " Highlight matching brace
 set visualbell                  " Use visual bell (no beeping)
- 
+
 set hlsearch                    " Highlight all search results
 set smartcase                   " Enable smart-case search
 set ignorecase                  " Always case-insensitive
 set incsearch                   " Searches for strings incrementally
- 
+
 set autoindent                  " Auto-indent new lines
 set expandtab                   " Use spaces instead of tabs
 set shiftwidth=2                " Number of auto-indent spaces
@@ -115,3 +115,11 @@ func! DeleteTrailingWS()
 endfunc
 autocmd BufWrite *.py :call DeleteTrailingWS()
 autocmd BufWrite *.coffee :call DeleteTrailingWS()
+
+" Highlight unwanted whitespace
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
