@@ -1,5 +1,5 @@
 [user]
-	email = soylentgrn@gmail.com
+	email = msean@vmware.com
 	name = Sean Murphy
 [color]
 	ui = always
@@ -7,11 +7,12 @@
 	excludesfile = ~/.gitignore
 	editor = vim
 [alias]
-	co = checkout
-	br = branch
 	st = status -s
-	cm = commit
 [github]
         user = soylentgrn
 [push]
-	default = matching
+	default = current
+[pull]
+	ff = only
+[merge]
+	ff = false

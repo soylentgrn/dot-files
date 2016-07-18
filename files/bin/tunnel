@@ -1,4 +1,0 @@
-#!/bin/bash
-#POD=`naclient status | grep 'd\d\{1,\}p\d\{1,\}' | cut -d'p' -f 2 | cut -d' ' -f 1`
-POD=`naclient status | grep 'd\d\{1,\}p\d\{1,\}' | cut -d'p' -f 2 | egrep  -o '\d'`
-ssh -q -D 8888 smurphy@172.20.${POD}.3
