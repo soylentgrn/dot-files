@@ -64,8 +64,8 @@ gls() {
 alias gm='git merge --no-ff'
 alias gmf='git merge --ff-only'
 alias gmfthis='gmf origin/$(git_current_branch)'
-alias gp='git push'
-alias gpf='git push -f'
+alias gp='git push --tags'
+alias gpf='git push -f --tags'
 alias gpthis='gp origin $(git_current_branch)'
 alias gpthis!='gp --set-upstream origin $(git_current_branch)'
 alias gr='git reset'
@@ -83,8 +83,12 @@ alias gsw='git show --color-words="\w+"'
 alias gst='git stash'
 alias gstp='git stash pop'
 alias gup='git smart-pull'
+gt() {
+  #git tag -a -m "$1" "$2" "$3"
+  git tag -a -m "$1" "$2"
+}
 gupstation() {
   gup
-  gf production
-  gf staging
+  gf origin
+  gf fork
 }
