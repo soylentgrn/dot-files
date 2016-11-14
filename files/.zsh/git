@@ -83,6 +83,14 @@ alias gsw='git show --color-words="\w+"'
 alias gst='git stash'
 alias gstp='git stash pop'
 alias gup='git smart-pull'
+gfp() {
+  if [ `git_current_branch` != 'master' ]; then
+    echo 'Aborting. Not on master branch.'
+  else
+    gfa
+    git pull fork master
+  fi
+}
 gt() {
   #git tag -a -m "$1" "$2" "$3"
   git tag -a -m "$1" "$2"
