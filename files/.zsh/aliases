@@ -14,9 +14,13 @@ alias lal='ls -lah'
 alias less='less -R'
 alias sub='subl -n'
 alias b='bundle exec'
-alias vi='vim'
 
-if [[ `hostname -f` =~ (d0p1|d2p3)oss-mgmt-linjump.prod.vpc.vmw ]]; then 
+if `vim --version | head -1 | grep -q 7.`; then
+  alias vi='vim -p'
+else
+  alias vi='vim'
+fi
+if [[ `hostname -f` =~ (d0p1|d2p3)oss-mgmt-linjump.prod.vpc.vmw ]]; then
   alias vcimglbl='ssh postgres@d0p1tlm-mgmt-vcimglbl-vpg-a'
   alias vcimpod='ssh postgres@d0p1tlm-mgmt-vcimpod-vpg-a'
 fi
