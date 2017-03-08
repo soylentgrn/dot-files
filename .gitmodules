@@ -18,3 +18,6 @@
 	path = files/.vim/bundle/zed
 	url = git@github.com:VMop/zed.vim.git
         branch = master
+[submodule "files/.vim/bundle/YouCompleteMe"]
+	path = files/.vim/bundle/YouCompleteMe
+	url = https://github.com/Valloric/YouCompleteMe.git
