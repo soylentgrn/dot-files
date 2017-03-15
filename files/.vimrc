@@ -72,7 +72,9 @@ nnoremap tm  :tabm<Space>
 nnoremap td  :tabclose<CR>
 nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
 nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . (tabpagenr()+1)<CR>
-
+" Syntastic
+nnoremap <c-n> :lnext<CR>
+nnoremap <c-p> :lprev<CR>
 set pastetoggle=<F6>
 
 " Pathogen
