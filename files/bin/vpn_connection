@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby
+require 'trollop'
+
+#command line options
+opts = Trollop::options do
+  opt :user, "Username for VPN connection.", :type => :string, :default => 'smurphy'
+  opt :config_file, "naclient.conf location.", :type => :string, :default => '/opt/sslvpn-plus/naclient/naclient.conf'
+  opt :logout, "logout of current VPN connection", :type => :flag, :default => false
+  opt :vpn_selection, "VPN menu selection", :type => :string
+end
+
+def first_words_from_file(file_name)
+  lines = File.readlines(file_name).reject(&:empty?)
+  lines.map do |line|
+    line.split.first
+  end
+end
+
+def menu(vpn_list, vpn_selection)
+  unless vpn_selection
+    vpn_list.each_with_index { |vpn,index|
+      puts "#{index+1}: #{vpn}"
+    }
+    puts '0: Exit'
+    print 'Select a VPN connection: '
+    gets.to_i
+  else
+    vpn_selection.to_i
+  end
+end
+
+def connect(vpn, username)
+  cmd = "naclient login -profile #{vpn} -user #{username}"
+  puts "Executing: #{cmd}"
+  i = 0
+  connection = nil
+  until i > 2 || connection == "Successfully connected to SSL VPN-Plus gateway profile: #{vpn}\n"
+    connection = %x[ #{cmd} ]
+    puts connection
+    i = i + 1
+  end
+  puts 'Too many failed attempts' if i > 2
+end
+
+def logout
+  cmd = "naclient logout"
+  puts "Executing: #{cmd}"
+  connection = %x[ #{cmd} ]
+  puts connection
+end
+
+unless opts[:logout]
+  vpn_list = first_words_from_file(opts[:config_file]).compact
+  input = menu(vpn_list, opts[:vpn_selection])
+  connect(vpn_list[input-1], opts[:user]) unless input == 0
+else
+  logout
+end
+
