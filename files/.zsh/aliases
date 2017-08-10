@@ -15,6 +15,9 @@ alias less='less -R'
 alias sub='subl -n'
 alias b='bundle exec'
 
+# OVH
+alias smus='ssh smurphy@144.217.118.1 -t -- '
+
 if `vim --version | head -1 | grep -q 7.`; then
   alias vi='vim -p'
 else

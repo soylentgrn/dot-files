@@ -1,5 +1,5 @@
 [user]
-	email = msean@vmware.com
+	email = soylentgrn@gmail.com
 	name = Sean Murphy
 [color]
 	ui = always
@@ -9,10 +9,16 @@
 [alias]
 	st = status -s
 [github]
-        user = soylentgrn
+  user = soylentgrn
 [push]
 	default = current
 [pull]
 	ff = only
 [merge]
 	ff = false
+[commit]
+	gpgSign = true
+[tag]
+	forceSignAnnotated = true
+[gpg]
+	program = gpg

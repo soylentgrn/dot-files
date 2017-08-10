@@ -32,3 +32,4 @@ export PATH=$PATH:$HOME/bin
 . ~/.zsh/bash_prompt # prompt config
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export PATH=$PATH:$(go env GOPATH)/bin

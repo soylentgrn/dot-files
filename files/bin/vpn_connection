@@ -7,6 +7,7 @@ opts = Trollop::options do
   opt :config_file, "naclient.conf location.", :type => :string, :default => '/opt/sslvpn-plus/naclient/naclient.conf'
   opt :logout, "logout of current VPN connection", :type => :flag, :default => false
   opt :vpn_selection, "VPN menu selection", :type => :string
+  opt :status, "Check VPN client status", :type => :flag, :default => false
 end
 
 def first_words_from_file(file_name)
@@ -49,11 +50,19 @@ def logout
   puts connection
 end
 
-unless opts[:logout]
+def status
+  cmd = "naclient status"
+  puts "Executing: #{cmd}"
+  status = %x[ #{cmd} ]
+  puts status
+end
+
+status if opts[:status]
+logout if opts[:logout]
+
+begin
   vpn_list = first_words_from_file(opts[:config_file]).compact
   input = menu(vpn_list, opts[:vpn_selection])
   connect(vpn_list[input-1], opts[:user]) unless input == 0
-else
-  logout
-end
+end unless opts[:logout] || opts[:status]
 
