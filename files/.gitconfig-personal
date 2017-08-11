@@ -1,7 +1,6 @@
-[includeIf "gitdir:~/Code/"]
-  path = ~/.gitconfig-work
-[includeIf "gitdir:~/.dot-files/"]
-  path = ~/.gitconfig-personal
+[user]
+	email = soylentgrn@gmail.com
+	name = Sean Murphy
 [color]
 	ui = always
 [core]

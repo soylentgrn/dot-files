@@ -21,8 +21,19 @@ if [ -d "/Applications/VMware OVF Tool/ovftool" ]; then
   export PATH=$PATH:"/Applications/VMware OVF Tool/ovftool"
 fi
 
+# Mac scripts
 if [ -d "$HOME/Documents/scripts/mac" ]; then
   export PATH=$PATH:$HOME/Documents/scripts/mac
+fi
+
+# Git from src
+if [ -d "/usr/local/git/bin" ]; then
+  export PATH=$PATH:/usr/local/git/bin
+fi
+
+# GO
+if [ -d "/usr/local/go" ]; then
+  export PATH=$PATH:$(go env GOPATH)/bin
 fi
 
 export PATH=$PATH:$HOME/bin
@@ -31,5 +42,9 @@ export PATH=$PATH:$HOME/bin
 . ~/.zsh/git
 . ~/.zsh/bash_prompt # prompt config
 
+# GO
+if [ -d "/usr/local/go/bin" ]; then
+  export PATH=$PATH:$(go env GOPATH)/bin
+fi
+
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-export PATH=$PATH:$(go env GOPATH)/bin
