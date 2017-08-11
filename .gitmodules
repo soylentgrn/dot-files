@@ -21,3 +21,6 @@
 [submodule "files/.vim/bundle/YouCompleteMe"]
 	path = files/.vim/bundle/YouCompleteMe
 	url = https://github.com/Valloric/YouCompleteMe.git
+[submodule "files/.vim/bundle/vim-go"]
+	path = files/.vim/bundle/vim-go
+	url = https://github.com/fatih/vim-go.git
