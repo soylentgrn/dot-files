@@ -1,24 +1,3 @@
 [user]
 	email = sean.murphy@corp.ovh.us
 	name = Sean Murphy
-[color]
-	ui = always
-[core]
-	excludesfile = ~/.gitignore
-	editor = vim
-[alias]
-	st = status -s
-[github]
-  user = soylentgrn
-[push]
-	default = current
-[pull]
-	ff = only
-[merge]
-	ff = false
-[commit]
-	gpgSign = true
-[tag]
-	forceSignAnnotated = true
-[gpg]
-	program = gpg
