@@ -36,7 +36,13 @@ if [ -d "/usr/local/go" ]; then
   export PATH=$PATH:$(go env GOPATH)/bin
 fi
 
-export PATH=$PATH:$HOME/bin
+# GPG
+if [ -f ~/.gnupg/.gpg-agent-info ] && [ -n "$(pgrep gpg-agent)" ]; then
+    source ~/.gnupg/.gpg-agent-info
+    export GPG_AGENT_INFO
+else
+    eval $(gpg-agent --daemon --write-env-file ~/.gnupg/.gpg-agent-info)
+fi
 
 . ~/.zsh/aliases
 . ~/.zsh/git

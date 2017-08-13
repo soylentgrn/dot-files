@@ -2,3 +2,6 @@
 *_kb
 .netrwhist
 cli.pstore
+version
+*.jpg
+Gemfile.lock

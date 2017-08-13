@@ -1,3 +1,4 @@
 [user]
 	email = sean.murphy@corp.ovh.us
 	name = Sean Murphy
+  signingkey = sean.murphy@corp.ovh.us
