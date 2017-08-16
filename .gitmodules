@@ -24,3 +24,12 @@
 [submodule "files/.vim/bundle/vim-go"]
 	path = files/.vim/bundle/vim-go
 	url = https://github.com/fatih/vim-go.git
+[submodule "files/.vim/bundle/vim-airline"]
+	path = files/.vim/bundle/vim-airline
+	url = https://github.com/vim-airline/vim-airline
+[submodule "files/.vim/bundle/vim-bufferline"]
+	path = files/.vim/bundle/vim-bufferline
+	url = https://github.com/bling/vim-bufferline
+[submodule "files/.vim/bundle/vim-fugitive"]
+	path = files/.vim/bundle/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git

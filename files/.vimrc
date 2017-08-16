@@ -136,7 +136,11 @@ autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
 autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 autocmd BufWinLeave * call clearmatches()
-autocmd BufWritePre * call clearmatches()
+
+autocmd BufWritePre *.ztf %s/\s\+$//e
+autocmd BufWritePre *.zaf %s/\s\+$//e
+autocmd BufWritePre *.zf %s/\s\+$//e
+autocmd BufWritePre *zorstub %s/\s\+$//e
 
 set tw=0
 
@@ -156,3 +160,14 @@ augroup filetypedetect
     au BufRead,BufNewFile *zorstub set filetype=yaml
     au BufRead,BufNewFile *.md set filetype=text
 augroup END
+
+" airline/powerline
+set laststatus=2
+let g:airline_powerline_fonts = 1
+set guifont=Inconsolata\ for\ Powerline:h15
+let g:Powerline_symbols = 'fancy'
+set t_Co=256
+set fillchars+=stl:\ ,stlnc:\
+set term=xterm-256color
+set termencoding=utf-8
+set showtabline=0
