@@ -171,7 +171,11 @@ set fillchars+=stl:\ ,stlnc:\
 set term=xterm-256color
 set termencoding=utf-8
 set showtabline=0
+let g:airline#extensions#bufferline#enabled = 0
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#tab_nr_type = 1
+let g:bufferline_echo = 0
+
 function! WindowNumber(...)
     let builder = a:1
     let context = a:2
