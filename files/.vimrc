@@ -136,6 +136,7 @@ autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
 autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 autocmd BufWinLeave * call clearmatches()
+autocmd BufWritePre * call clearmatches()
 
 set tw=0
 
@@ -150,3 +151,8 @@ endfunction
 com! DiffSaved call s:DiffWithSaved()
 
 nnoremap gd :w !diff % -<CR>
+
+augroup filetypedetect
+    au BufRead,BufNewFile *zorstub set filetype=yaml
+    au BufRead,BufNewFile *.md set filetype=text
+augroup END
