@@ -1,0 +1,13 @@
+#!/bin/bash
+if [ -z $2 ]; then
+  cmd='start'
+else
+  cmd=$2
+fi
+
+if [ $cmd == 'stop' ]; then
+  VBoxManage controlvm $1 acpipowerbutton
+else
+  VBoxManage startvm $1 --type headless
+fi
+
