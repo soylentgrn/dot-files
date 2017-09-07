@@ -33,14 +33,8 @@ end
 def connect(vpn, username)
   cmd = "naclient login -profile #{vpn} -user #{username}"
   puts "Executing: #{cmd}"
-  i = 0
-  connection = nil
-  until i > 2 || connection == "Successfully connected to SSL VPN-Plus gateway profile: #{vpn}\n"
-    connection = %x[ #{cmd} ]
-    puts connection
-    i = i + 1
-  end
-  puts 'Too many failed attempts' if i > 2
+  connection = %x[ #{cmd} ]
+  puts connection
 end
 
 def logout
