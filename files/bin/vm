@@ -5,9 +5,15 @@ else
   cmd=$2
 fi
 
-if [ $cmd == 'stop' ]; then
-  VBoxManage controlvm $1 acpipowerbutton
+if [ $1 == 'list' ]; then
+  VBoxManage list vms
+elif [ $1 == 'running' ]; then
+  VBoxManage list runningvms
 else
-  VBoxManage startvm $1 --type headless
+  if [ $cmd == 'stop' ]; then
+    VBoxManage controlvm $1 acpipowerbutton
+  else
+    VBoxManage startvm $1 --type headless
+  fi
 fi
 

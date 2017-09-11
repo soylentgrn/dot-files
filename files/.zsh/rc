@@ -7,6 +7,11 @@
 . ~/.zsh/ruby # ruby env vars and version management
 . ~/.zsh/env # environment variables
 
+if [ $(uname -s) = 'Darwin' ]; then
+  . /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  . /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
 autoload up-line-or-beginning-search
 autoload down-line-or-beginning-search
 zle -N up-line-or-beginning-search
