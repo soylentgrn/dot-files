@@ -6,3 +6,4 @@ version
 *.jpg
 Gemfile.lock
 changelog
+files/.zsh/zsh-autosuggestions
