@@ -1,9 +1,9 @@
+[includeIf "gitdir:~/"]
+  path = ~/.gitconfig-personal
 [includeIf "gitdir:~/Code/"]
   path = ~/.gitconfig-work
 [includeIf "gitdir:~/work/"]
   path = ~/.gitconfig-work
-[includeIf "gitdir:~/.dot-files/"]
-  path = ~/.gitconfig-personal
 [color]
 	ui = always
 [core]
@@ -20,7 +20,7 @@
 [merge]
 	ff = false
 [commit]
-	gpgSign = true
+  gpgSign = true
 [tag]
 	forceSignAnnotated = true
 [gpg]
