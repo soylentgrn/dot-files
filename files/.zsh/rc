@@ -20,6 +20,11 @@ else
   fi
 fi
 
+# k8s
+if [ -f /usr/local/bin/kubectl ]; then
+  source <(kubectl completion zsh)
+fi
+
 autoload up-line-or-beginning-search
 autoload down-line-or-beginning-search
 zle -N up-line-or-beginning-search

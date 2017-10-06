@@ -16,3 +16,9 @@ set horizontal-scroll-mode Off
 . ~/.zsh/git # git aliases
 . ~/.zsh/bash_prompt # prompt config
 . ~/.zsh/env # environment variables
+
+# k8s
+if [ -f /usr/local/bin/kubectl ]; then
+  source <(kubectl completion bash)
+fi
+
