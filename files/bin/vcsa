@@ -1,0 +1,135 @@
+#!/usr/bin/env ruby
+require 'rbvmomi'
+require 'trollop'
+require 'highline/import'
+
+opts = Trollop::options do
+  opt :username,   'vCenter username',       :type => :string, :default => 'soylent'
+  opt :vcenter,    'vCenter hostname',       :type => :string, :required => true
+  opt :vm_name,    'Name of target VM',      :type => :string, :required => true
+  opt :datacenter, 'Name of the datacenter', :type => :string, :default => nil
+  opt :action,     'Action to perform',      :type => :string, :default => 'details'
+end
+
+Trollop::die :action,
+  "Invalid action: #{opts[:action]}. Valid options are: details, poweron, and poweroff" unless
+    opts[:action] =~ /details|powero(n|ff)/i
+opts[:password] = ask("Enter password: ") { |q| q.echo="*"}
+
+# Login to vCenter
+def login(host,user,password)
+  begin
+    RbVmomi::VIM.connect :host => host, :user => user, :password => password, :insecure => true
+  rescue RbVmomi::Fault => e
+    puts e
+    exit
+  end
+end
+
+# Get all datacenters from vCenter
+def find_datacenter(vim,name = nil)
+  vim.serviceInstance.find_datacenter if name.nil?
+end
+
+# Get all VMs from vCenter
+def get_vms(vim, vm_prop=nil)
+  vm_prop = %w(name runtime.powerState config.guestFullName summary.guest.ipAddress summary.guest.toolsStatus) if vm_prop.nil?
+  pc = vim.serviceInstance.content.propertyCollector
+  viewmgr = vim.serviceInstance.content.viewManager
+  rootFolder = vim.serviceInstance.content.rootFolder
+  vmview =  viewmgr.CreateContainerView(
+              {
+                :container => rootFolder,
+                :type => ['VirtualMachine'],
+                :recursive => true
+              }
+            )
+  filterSpec =  RbVmomi::VIM.PropertyFilterSpec(
+                  :objectSet => [
+                    :obj => vmview,
+                    :skip => true,
+                    :selectSet => [
+                      RbVmomi::VIM.TraversalSpec(
+                        :name => "traverseEntities",
+                        :type => "ContainerView",
+                        :path => "view",
+                        :skip => false
+                      )
+                    ]
+                  ],
+                  :propSet => [
+                      {
+                        :type => 'VirtualMachine',
+                        :pathSet => vm_prop
+                      }
+                  ]
+                )
+  pc.RetrieveProperties(:specSet => [filterSpec])
+end
+
+# Find specific VM from list returned by get_vms
+def find_vm(vim, vm_name)
+  vms = get_vms vim
+  vm =
+    vms.select { |vm_obj|
+      vm_obj.propSet.find { |prop|
+        prop.name == 'name'
+      }.val == vm_name
+    }
+
+  if vm.empty?
+    puts 'No matching VM found.'
+    exit
+  elsif vm.count > 1
+    puts 'Multiple VMs returned'
+    exit
+  else
+    vm = vm[0]
+  end
+
+  vm
+end
+
+# Print VM details from properties returned by find_vm()
+def vm_details(vim, vm_name)
+  vm = find_vm vim, vm_name
+  puts "VM Details:"
+  vm.propSet.each { |prop|
+    printf "  %-15s %s\n", prop.name.split('.')[-1], prop.val
+  }
+end
+
+# Power on VM
+def power_on_vm(vim, vm_name)
+  vm = find_vm vim, vm_name
+  begin
+    vm.obj.PowerOnVM_Task.wait_for_completion
+  rescue => e
+    puts "ERROR: #{e}"
+    exit
+  end
+
+  vm_details vim, vm_name
+end
+
+# Power off VM
+def power_off_vm(vim, vm_name)
+  vm = find_vm vim, vm_name
+  begin
+    vm.obj.PowerOffVM_Task.wait_for_completion
+  rescue => e
+    puts "ERROR: #{e}"
+    exit
+  end
+
+  vm_details vim, vm_name
+end
+
+#Login
+vim = login opts[:vcenter], opts[:username], opts[:password]
+
+# Execute specified action
+vm_details vim, opts[:vm_name] if opts[:action] == 'details'
+power_on_vm vim, opts[:vm_name] if opts[:action] == 'poweron'
+power_off_vm vim, opts[:vm_name] if opts[:action] == 'poweroff'
+
