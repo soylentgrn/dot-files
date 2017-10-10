@@ -3,6 +3,7 @@ require 'rbvmomi'
 require 'trollop'
 require 'highline/import'
 require 'hashie'
+require 'colorize'
 
 opts = Trollop::options do
   opt :username,   'vCenter username',       :type => :string, :default => 'soylent'
@@ -14,9 +15,9 @@ end
 
 Trollop::die :action,
   "Invalid action: #{opts[:action]}. Valid options are: details, poweron, and poweroff" unless
-    opts[:action] =~ /details|powero(n|ff)|list_all/i
-  "--vm-name option is required for details, poweron, and poweroff actions" if
-    opts[:action] =~ /details|powero(n|ff)/i
+    opts[:action] =~ /details|powero(n|ff)|list_all|list_powered_on_vms/i
+  "--vm-name option is required for details, poweron, poweroff, and list_powered_on_vms actions" if
+    opts[:action] =~ /details|powero(n|ff)|list_powered_on_vms/i
 opts[:password] = ask("Enter password: ") { |q| q.echo="*"}
 
 # Login to vCenter
@@ -97,25 +98,25 @@ def vm_details(vim, vm_name)
   puts '|    VM Details     |'
   puts '--------------------'
   vm.properties.each { |prop,val|
-    printf "  %-15s %s\n", prop.split('.')[-1], val
+    printf "  %-30s %s\n", prop, val
   }
 end
 
 # Power on VM
 def power_on_vm(vim, vm_name)
   vm = find_vm vim, vm_name
-  puts 'VM found sending power on request'
+  puts 'VM found sending power on request'.yellow
   vm.obj.PowerOnVM_Task.wait_for_completion
-  puts 'Power on successful'
+  puts 'Power on successful'.green
   vm_details vim, vm_name
 end
 
 # Power off VM
 def power_off_vm(vim, vm_name)
   vm = find_vm vim, vm_name
-  puts 'VM found sending power off request'
+  puts 'VM found sending power off request'.yellow
   vm.obj.PowerOffVM_Task.wait_for_completion
-  puts 'Power off successful'
+  puts 'Power off successful'.green
   vm_details vim, vm_name
 end
 
@@ -129,6 +130,18 @@ def list_all(vim)
   }
 end
 
+def list_powered_on_vms(vim)
+  vms = (get_vms vim).reject { |k| k == 'obj' }
+
+  puts '--------------------'
+  puts '|  Powered On VMs  |'
+  puts '--------------------'
+  vms.each { |key,value|
+    puts value.properties.name if
+      value[:properties][:'runtime.powerState'] == 'poweredOn'
+  }
+end
+
 begin
   # Login
   vim = login opts[:vcenter], opts[:username], opts[:password]
@@ -138,6 +151,7 @@ begin
   power_on_vm vim, opts[:vm_name] if opts[:action].downcase == 'poweron'
   power_off_vm vim, opts[:vm_name] if opts[:action].downcase == 'poweroff'
   list_all vim if opts[:action].downcase == 'list_all'
+  list_powered_on_vms vim if opts[:action].downcase == 'list_powered_on_vms'
 rescue => e
-  puts "ERROR: #{e}"
+  puts "ERROR: #{e}".red
 end
