@@ -6,13 +6,15 @@ require 'highline/import'
 opts = Trollop::options do
   opt :username,   'vCenter username',       :type => :string, :default => 'soylent'
   opt :vcenter,    'vCenter hostname',       :type => :string, :required => true
-  opt :vm_name,    'Name of target VM',      :type => :string, :required => true
+  opt :vm_name,    'Name of target VM',      :type => :string
   opt :datacenter, 'Name of the datacenter', :type => :string, :default => nil
   opt :action,     'Action to perform',      :type => :string, :default => 'details'
 end
 
 Trollop::die :action,
   "Invalid action: #{opts[:action]}. Valid options are: details, poweron, and poweroff" unless
+    opts[:action] =~ /details|powero(n|ff)|list_all/i
+  "--vm-name option is required for details, poweron, and poweroff actions" if
     opts[:action] =~ /details|powero(n|ff)/i
 opts[:password] = ask("Enter password: ") { |q| q.echo="*"}
 
@@ -125,11 +127,32 @@ def power_off_vm(vim, vm_name)
   vm_details vim, vm_name
 end
 
+def get_vm_list(vim)
+  vms = get_vms vim
+  vm_list = []
+  vms.each { |vm|
+    vm_list.push(
+      vm.propSet.find { |prop|
+        prop.name == 'name'
+      }.val
+    )
+  }
+  vm_list
+end
+
+def list_all(vim)
+  vm_list = get_vm_list vim
+  vm_list.sort.each_with_index do |vm_name, index|
+    index = (index + 1).to_s + ':'
+    printf "%-3s %s\n", index, vm_name
+  end
+end
+
 #Login
 vim = login opts[:vcenter], opts[:username], opts[:password]
 
 # Execute specified action
-vm_details vim, opts[:vm_name] if opts[:action] == 'details'
-power_on_vm vim, opts[:vm_name] if opts[:action] == 'poweron'
-power_off_vm vim, opts[:vm_name] if opts[:action] == 'poweroff'
-
+vm_details vim, opts[:vm_name] if opts[:action].downcase == 'details'
+power_on_vm vim, opts[:vm_name] if opts[:action].downcase == 'poweron'
+power_off_vm vim, opts[:vm_name] if opts[:action].downcase == 'poweroff'
+list_all vim if opts[:action].downcase == 'list_all'
