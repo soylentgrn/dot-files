@@ -2,6 +2,7 @@
 require 'rbvmomi'
 require 'trollop'
 require 'highline/import'
+require 'hashie'
 
 opts = Trollop::options do
   opt :username,   'vCenter username',       :type => :string, :default => 'soylent'
@@ -20,12 +21,7 @@ opts[:password] = ask("Enter password: ") { |q| q.echo="*"}
 
 # Login to vCenter
 def login(host,user,password)
-  begin
-    RbVmomi::VIM.connect :host => host, :user => user, :password => password, :insecure => true
-  rescue RbVmomi::Fault => e
-    puts e
-    exit
-  end
+  RbVmomi::VIM.connect :host => host, :user => user, :password => password, :insecure => true
 end
 
 # Get all datacenters from vCenter
@@ -66,93 +62,82 @@ def get_vms(vim, vm_prop=nil)
                       }
                   ]
                 )
-  pc.RetrieveProperties(:specSet => [filterSpec])
+  build_vms_hash pc.RetrieveProperties(:specSet => [filterSpec])
+end
+
+def build_vms_hash(vms)
+  vm_hash = Hashie::Mash.new
+
+  vms.each { |vm|
+    name =
+      vm.propSet.find { |prop|
+        prop.name == 'name'
+      }.val.to_sym
+    vm_hash[name] = Hashie::Mash.new
+    vm_hash[name][:obj] = vm.obj
+    vm_hash[name][:properties] = {}
+    vm.propSet.each { |prop|
+      vm_hash[name][:properties][prop.name.to_sym] = prop.val
+    }
+  }
+  vm_hash
 end
 
 # Find specific VM from list returned by get_vms
 def find_vm(vim, vm_name)
   vms = get_vms vim
-  vm =
-    vms.select { |vm_obj|
-      vm_obj.propSet.find { |prop|
-        prop.name == 'name'
-      }.val == vm_name
-    }
-
-  if vm.empty?
-    puts 'No matching VM found.'
-    exit
-  elsif vm.count > 1
-    puts 'Multiple VMs returned'
-    exit
-  else
-    vm = vm[0]
-  end
-
-  vm
+  raise 'No matching VM found.' if vms[vm_name].nil?
+  vms[vm_name]
 end
 
 # Print VM details from properties returned by find_vm()
 def vm_details(vim, vm_name)
   vm = find_vm vim, vm_name
-  puts "VM Details:"
-  vm.propSet.each { |prop|
-    printf "  %-15s %s\n", prop.name.split('.')[-1], prop.val
+  puts '--------------------'
+  puts '|    VM Details     |'
+  puts '--------------------'
+  vm.properties.each { |prop,val|
+    printf "  %-15s %s\n", prop.split('.')[-1], val
   }
 end
 
 # Power on VM
 def power_on_vm(vim, vm_name)
   vm = find_vm vim, vm_name
-  begin
-    vm.obj.PowerOnVM_Task.wait_for_completion
-  rescue => e
-    puts "ERROR: #{e}"
-    exit
-  end
-
+  puts 'VM found sending power on request'
+  vm.obj.PowerOnVM_Task.wait_for_completion
+  puts 'Power on successful'
   vm_details vim, vm_name
 end
 
 # Power off VM
 def power_off_vm(vim, vm_name)
   vm = find_vm vim, vm_name
-  begin
-    vm.obj.PowerOffVM_Task.wait_for_completion
-  rescue => e
-    puts "ERROR: #{e}"
-    exit
-  end
-
+  puts 'VM found sending power off request'
+  vm.obj.PowerOffVM_Task.wait_for_completion
+  puts 'Power off successful'
   vm_details vim, vm_name
 end
 
-def get_vm_list(vim)
-  vms = get_vms vim
-  vm_list = []
-  vms.each { |vm|
-    vm_list.push(
-      vm.propSet.find { |prop|
-        prop.name == 'name'
-      }.val
-    )
-  }
-  vm_list
-end
-
 def list_all(vim)
-  vm_list = get_vm_list vim
-  vm_list.sort.each_with_index do |vm_name, index|
-    index = (index + 1).to_s + ':'
-    printf "%-3s %s\n", index, vm_name
-  end
+  vms = (get_vms vim).reject { |k| k == 'obj' }
+  puts '--------------------'
+  puts '|       VMs        |'
+  puts '--------------------'
+  vms.each { |key,value|
+    puts value.properties.name
+  }
 end
 
-#Login
-vim = login opts[:vcenter], opts[:username], opts[:password]
+begin
+  # Login
+  vim = login opts[:vcenter], opts[:username], opts[:password]
 
-# Execute specified action
-vm_details vim, opts[:vm_name] if opts[:action].downcase == 'details'
-power_on_vm vim, opts[:vm_name] if opts[:action].downcase == 'poweron'
-power_off_vm vim, opts[:vm_name] if opts[:action].downcase == 'poweroff'
-list_all vim if opts[:action].downcase == 'list_all'
+  # Execute specified action
+  vm_details vim, opts[:vm_name] if opts[:action].downcase == 'details'
+  power_on_vm vim, opts[:vm_name] if opts[:action].downcase == 'poweron'
+  power_off_vm vim, opts[:vm_name] if opts[:action].downcase == 'poweroff'
+  list_all vim if opts[:action].downcase == 'list_all'
+rescue => e
+  puts "ERROR: #{e}"
+end
