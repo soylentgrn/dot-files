@@ -115,8 +115,19 @@ end
 def power_off_vm(vim, vm_name)
   vm = find_vm vim, vm_name
   puts 'VM found sending power off request'.yellow
-  vm.obj.PowerOffVM_Task.wait_for_completion
-  puts 'Power off successful'.green
+  if vm[:properties][:'summary.guest.toolsStatus'] != 'toolsOk'
+    puts 'VM Tools are not running, do you wish to perform a hard power off? (y|n): '.yellow
+    hard_power_off = $stdin.gets.chomp
+    if hard_power_off == 'y'
+      vm.obj.vm.obj.PowerOffVM_Task.wait_for_completion
+      puts 'Power off successful'.green
+    else
+      raise 'Power off aborted by user'
+    end
+  elsif vm[:properties][:'summary.guest.toolsStatus'] == 'toolsOk'
+    vm.obj.ShutdownGuest if vm[:properties][:'summary.guest.toolsStatus'] == 'toolsOk'
+    puts 'Soft power off successful'.green
+  end
   vm_details vim, vm_name
 end
 
