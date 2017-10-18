@@ -57,6 +57,7 @@ let g:syntastic_check_on_wq = 0
 set omnifunc=syntaxcomplete#Complete
 
 " Mappings
+:let mapleader = "-"
 " 'quote' a word
 nnoremap qw :silent! normal mpea'<Esc>bi'<Esc>`pl
 " double "quote" a word
@@ -74,8 +75,9 @@ nnoremap td  :tabclose<CR>
 nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
 nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . (tabpagenr()+1)<CR>
 " Syntastic
-nnoremap <c-n> :lnext<CR>
-nnoremap <c-p> :lprev<CR>
+map <C-n> :cnext<CR>
+map <C-m> :cprevious<CR>
+nnoremap <leader>a :cclose<CR>
 set pastetoggle=<F6>
 
 " Pathogen
@@ -128,6 +130,28 @@ func! DeleteTrailingWS()
 endfunc
 autocmd BufWrite *.py :call DeleteTrailingWS()
 autocmd BufWrite *.coffee :call DeleteTrailingWS()
+
+" Go
+let g:go_fmt_command = "goimports"
+let g:go_list_type = "quickfix"
+let g:go_metalinter_autosave = 1
+let g:go_metalinter_enabled = ['golint', 'errcheck']
+let g:go_metalinter_autosave_enabled = ['golint', 'errcheck']
+autocmd FileType go nmap <leader>r <Plug>(go-run)
+autocmd FileType go nmap <leader>t <Plug>(go-test)
+autocmd FileType go nmap <leader>i <Plug>(go-imports)
+autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
+" run :GoBuild or :GoTestCompile based on the go file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+
+autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
 
 " Highlight unwanted whitespace
 highlight ExtraWhitespace ctermbg=red guibg=red
