@@ -119,7 +119,7 @@ def power_off_vm(vim, vm_name)
     puts 'VM Tools are not running, do you wish to perform a hard power off? (y|n): '.yellow
     hard_power_off = $stdin.gets.chomp
     if hard_power_off == 'y'
-      vm.obj.vm.obj.PowerOffVM_Task.wait_for_completion
+      vm.obj.PowerOffVM_Task.wait_for_completion
       puts 'Power off successful'.green
     else
       raise 'Power off aborted by user'
