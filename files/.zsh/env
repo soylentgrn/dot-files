@@ -1,12 +1,6 @@
 # Env vars
 export PATH='/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin'
 
-# RVM
-if [ -d $HOME/.rvm/bin ]; then
-  export PATH=$PATH:"$HOME/.rvm/bin"
-  [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"  # This loads RVM
-fi
-
 if [ $(uname -s) = 'Darwin' ]; then
   # VMware Fusion
   if [ -d "/Applications/VMware Fusion.app/Contents/Library" ]; then
@@ -46,6 +40,12 @@ fi
 
 if [ -d "$HOME/bin" ]; then
   export PATH="$HOME/bin:$PATH"
+fi
+
+# RVM
+if [ -d $HOME/.rvm/bin ]; then
+  export PATH="$HOME/.rvm/bin":$PATH
+  [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"  # This loads RVM
 fi
 
 # Remove duplicate entries from path
