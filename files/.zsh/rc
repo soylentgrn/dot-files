@@ -7,6 +7,11 @@
 . ~/.zsh/ruby # ruby env vars and version management
 . ~/.zsh/env # environment variables
 
+# Import additional custom config if present
+if [ -f ~/.custom ]; then
+  . ~/.custom
+fi
+
 if [ $(uname -s) = 'Darwin' ]; then
   . /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
   . /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

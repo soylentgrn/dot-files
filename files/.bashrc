@@ -17,6 +17,11 @@ set horizontal-scroll-mode Off
 . ~/.zsh/bash_prompt # prompt config
 . ~/.zsh/env # environment variables
 
+# Import additional custom config if present
+if [ -f ~/.custom ]; then
+  . ~/.custom
+fi
+
 # k8s
 if [ -f /usr/local/bin/kubectl ]; then
   source <(kubectl completion bash)
