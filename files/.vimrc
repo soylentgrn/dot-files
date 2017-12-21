@@ -44,18 +44,6 @@ set background=dark
 set noerrorbells
 set novisualbell
 
-" Syntastic config
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-set omnifunc=syntaxcomplete#Complete
-
 " Mappings
 :let mapleader = "-"
 " 'quote' a word
@@ -74,11 +62,6 @@ nnoremap tm  :tabm<Space>
 nnoremap td  :tabclose<CR>
 nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
 nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . (tabpagenr()+1)<CR>
-" Syntastic
-map <C-n> :cnext<CR>
-map <C-m> :cprevious<CR>
-nnoremap <leader>a :cclose<CR>
-set pastetoggle=<F6>
 
 " Pathogen
 runtime macros/matchit.vim
@@ -131,28 +114,6 @@ endfunc
 autocmd BufWrite *.py :call DeleteTrailingWS()
 autocmd BufWrite *.coffee :call DeleteTrailingWS()
 
-" Go
-let g:go_fmt_command = "goimports"
-let g:go_list_type = "quickfix"
-let g:go_metalinter_autosave = 1
-let g:go_metalinter_enabled = ['golint', 'errcheck']
-let g:go_metalinter_autosave_enabled = ['golint', 'errcheck']
-autocmd FileType go nmap <leader>r <Plug>(go-run)
-autocmd FileType go nmap <leader>t <Plug>(go-test)
-autocmd FileType go nmap <leader>i <Plug>(go-imports)
-autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
-" run :GoBuild or :GoTestCompile based on the go file
-function! s:build_go_files()
-  let l:file = expand('%')
-  if l:file =~# '^\f\+_test\.go$'
-    call go#test#Test(0, 1)
-  elseif l:file =~# '^\f\+\.go$'
-    call go#cmd#Build(0)
-  endif
-endfunction
-
-autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
-
 " Highlight unwanted whitespace
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
@@ -185,27 +146,86 @@ augroup filetypedetect
     au BufRead,BufNewFile *.md set filetype=text
 augroup END
 
-" airline/powerline
-set laststatus=2
-let g:airline_powerline_fonts = 1
-set guifont=Inconsolata\ for\ Powerline:h15
-let g:Powerline_symbols = 'fancy'
-set t_Co=256
-set fillchars+=stl:\ ,stlnc:\
-set term=xterm-256color
-set termencoding=utf-8
-set showtabline=0
-let g:airline#extensions#bufferline#enabled = 0
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#tab_nr_type = 1
-let g:bufferline_echo = 0
+""" PLUGIN-SPECIFIC OPTIONS
+" These are "supposed to be" set in after/plugin directory, but then
+" cross-platform synchronization would get even messier. So, au VimEnter it is. 
 
-function! WindowNumber(...)
-    let builder = a:1
-    let context = a:2
-    call builder.add_section('airline_b', '%{tabpagewinnr(tabpagenr())}')
-    return 0
+function! SetPluginOptionsNow()
+
+    " airline/powerline
+    if exists(":AirlineRefresh")
+        set laststatus=2
+        let g:airline_powerline_fonts = 1
+        set guifont=Inconsolata\ for\ Powerline:h15
+        let g:Powerline_symbols = 'fancy'
+        set t_Co=256
+        set fillchars+=stl:\ ,stlnc:\
+        set term=xterm-256color
+        set termencoding=utf-8
+        set showtabline=0
+        let g:airline#extensions#bufferline#enabled = 0
+        let g:airline#extensions#tabline#enabled = 1
+        let g:airline#extensions#tabline#tab_nr_type = 1
+        let g:bufferline_echo = 0
+
+        function! WindowNumber(...)
+          let builder = a:1
+          let context = a:2
+          call builder.add_section('airline_b', '%{tabpagewinnr(tabpagenr())}')
+          return 0
+        endfunction
+
+        call airline#add_statusline_func('WindowNumber')
+        call airline#add_inactive_statusline_func('WindowNumber')
+    endif
+
+    " NERDTree Options
+    if exists(":NERDTree")
+        map <F10> :NERDTreeToggle<CR>
+    endif
+
+    " Syntastic Options
+    if exists(":SyntasticCheck")
+      set statusline+=%#warningmsg#
+      set statusline+=%{SyntasticStatuslineFlag()}
+      set statusline+=%*
+      let g:syntastic_always_populate_loc_list = 1
+      let g:syntastic_auto_loc_list = 1
+      let g:syntastic_check_on_open = 1
+      let g:syntastic_check_on_wq = 0
+
+      set omnifunc=syntaxcomplete#Complete
+
+      map <C-n> :cnext<CR>
+      map <C-m> :cprevious<CR>
+      nnoremap <leader>a :cclose<CR>
+      set pastetoggle=<F6>
+    endif
+
+    " Go config
+    if exists(":GoPath")
+      let g:go_fmt_command = "goimports"
+      let g:go_list_type = "quickfix"
+      let g:go_metalinter_autosave = 1
+      let g:go_metalinter_enabled = ['golint', 'errcheck']
+      let g:go_metalinter_autosave_enabled = ['golint', 'errcheck']
+      autocmd FileType go nmap <leader>r <Plug>(go-run)
+      autocmd FileType go nmap <leader>t <Plug>(go-test)
+      autocmd FileType go nmap <leader>i <Plug>(go-imports)
+      autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
+      " run :GoBuild or :GoTestCompile based on the go file
+      function! s:build_go_files()
+        let l:file = expand('%')
+        if l:file =~# '^\f\+_test\.go$'
+          call go#test#Test(0, 1)
+        elseif l:file =~# '^\f\+\.go$'
+          call go#cmd#Build(0)
+        endif
+      endfunction
+
+      autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+    endif
+
 endfunction
 
-call airline#add_statusline_func('WindowNumber')
-call airline#add_inactive_statusline_func('WindowNumber')
+au VimEnter * call SetPluginOptionsNow()
