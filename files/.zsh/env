@@ -20,8 +20,8 @@ if [ $(uname -s) = 'Darwin' ]; then
   if [ -f "/usr/local/bin/go" ]; then
     export GOPATH="$HOME/go"
     export PATH="$HOME/go/bin":$PATH
-    if [ -d "${HOME}/work" ]; then
-      export GOPATH=$GOPATH:"$HOME/work"
+    if [ -d "${HOME}/work/go" ]; then
+      export GOPATH=$GOPATH:"$HOME/work/go"
       export PATH="$HOME/work/bin":$PATH
     fi
   fi
@@ -36,7 +36,6 @@ else
     fi
   fi
 fi
-
 
 if [ -d "$HOME/bin" ]; then
   export PATH="$HOME/bin:$PATH"
