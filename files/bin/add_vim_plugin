@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ `uname` = 'Darwin' ]; then
+  add_vim_plugin_osx
+else
+  add_vim_plugin_linux
+fi
