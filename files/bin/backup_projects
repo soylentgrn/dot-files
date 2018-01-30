@@ -1,0 +1,5 @@
+#!/bin/bash
+for i in `ls /Users/sean/Documents/projects/`; do
+  echo "Backing up ${i}..."
+  dropbox_uploader.sh upload /Users/sean/Documents/projects/${i} projects/${i}
+done
