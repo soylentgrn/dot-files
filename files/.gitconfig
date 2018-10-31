@@ -1,8 +1,8 @@
 [includeIf "gitdir:/"]
   path = ~/.gitconfig-personal
-[includeIf "gitdir:~/Code/"]
+[includeIf "gitdir:~/Documents/Code/"]
   path = ~/.gitconfig-work
-[includeIf "gitdir:~/work/"]
+[includeIf "gitdir:~/Documents/work/"]
   path = ~/.gitconfig-work
 [color]
 	ui = always
