@@ -3,8 +3,7 @@
 :bulk_threshold: 1000
 :sources:
 - https://rubygems.org/
-#- https://deploy:Uk2Vyy3MoH8k2FJJaVEE@zombie-builds.vca.vmware.com/gems/
 :update_sources: true
 :verbose: true
-gem: "--no-rdoc --no-ri"
+gem: "--no-rdoc --no-ri --document=yri"
 benchmark: false
