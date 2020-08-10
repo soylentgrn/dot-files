@@ -1,1 +1,13 @@
-files/.vim/bundle
+.DS_Store
+*_kb
+.netrwhist
+cli.pstore
+version
+*.jpg
+Gemfile.lock
+changelog
+files/.zsh/zsh-autosuggestions
+.vscode
+.bundle
+notes
+.vagrant
