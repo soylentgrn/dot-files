@@ -4,7 +4,6 @@
 . ~/.zsh/completion # tab completion config
 . ~/.zsh/aliases # shell aliases
 . ~/.zsh/git # git aliases
-. ~/.zsh/ruby # ruby env vars and version management
 . ~/.zsh/env # environment variables
 
 # Import additional custom config if present
