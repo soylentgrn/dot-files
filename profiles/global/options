@@ -1,6 +1,8 @@
 # Shell history
-HISTFILE=~/.zsh_history
 HISTSIZE=1000000
+HISTTIMEFORMAT='%D %R '
+HISTCONTROL=ignoreboth
+
 SAVEHIST=900000 # This value is smaller than HISTSIZE to allow a window for dupes.
 setopt append_history # Append to the history file rather than replacing it.
 setopt inc_append_history # Write history items as they are run, not on shell exit.

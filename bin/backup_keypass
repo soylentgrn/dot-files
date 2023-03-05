@@ -1,5 +1,0 @@
-#!/bin/bash
-echo 'Backing up key file...' 
-dropbox_uploader.sh upload /Users/sean/Documents/keepass/keepass.key keypass/keepass.key
-echo 'Backing up database...'
-dropbox_uploader.sh upload /Users/sean/Documents/keepass/ovh.kdbx keypass/ovh.kdbx

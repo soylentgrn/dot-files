@@ -66,11 +66,6 @@ function nonzero_return() {
   RETVAL=$?
   [ $RETVAL -ne 0 ] && echo "$RETVAL"
 }
-if [[ `hostname -f` == *"stage"* ]]; then
-  HOST_COLOR=${RED}
-else
-  HOST_COLOR=${CYAN}
-fi
   
 set_bash_prompt() {
   PS1="${DARK_GREY}[\t]${WHITE}[${RED}\u${WHITE}@${HOST_COLOR}\h ${YELLOW}\W ${RESET}$(parse_git_branch)${RESET} ] $ "
