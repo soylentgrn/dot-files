@@ -1,3 +1,4 @@
 . ~/.dot-files/profiles/global/options # global options
 . ~/.dot-files/profiles/global/git # git aliases
 . ~/.dot-files/profiles/global/env # environment variables
+. ~/.docker/init-bash.sh || true 

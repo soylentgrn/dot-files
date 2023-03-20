@@ -1,4 +1,4 @@
 [ -z "$PS1" ] && return
 shopt -s histappend
 
-. ~/.dot-files/profiles/bash/prompt # prompt config
+. ~/.dot-files/profiles/bash/prompt

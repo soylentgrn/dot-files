@@ -21,7 +21,7 @@
 [merge]
   ff = false
 [commit]
-  gpgSign = true
+  gpgSign = false
 [tag]
   forceSignAnnotated = true
 [gpg]

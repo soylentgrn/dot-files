@@ -1,2 +1,2 @@
-. ~/.dot-files/profiles/zsh/prompt # prompt config
-[ -d $HOME/.oh-my-zsh ] && . ~/.dot-files/profiles/zsh/omz
+. ~/.dot-files/profiles/zsh/prompt
+. ~/.dot-files/profiles/zsh/omz || true

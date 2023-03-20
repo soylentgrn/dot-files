@@ -3,6 +3,9 @@ if [ -d "$HOME/bin" ]; then
   export PATH="$HOME/bin:$PATH"
 fi
 
+[ -d "$HOME/Library/Python/3.9/bin" ] && export PATH="$HOME/Library/Python/3.9/bin:$PATH"
+[ -d "/usr/local/bin" ] && export PATH="/usr/local/bin:$PATH"
+
 # Remove duplicate entries from path
 if [ -n "$PATH" ]; then
   old_PATH=$PATH:; PATH=

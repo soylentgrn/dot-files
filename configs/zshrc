@@ -1,2 +1,2 @@
-. ~/.dot-files/profiles/zsh/rc
-. ~/.dot-files/profiles/default
+. ~/.dot-files/profiles/zsh/rc || true
+. ~/.dot-files/profiles/default || true

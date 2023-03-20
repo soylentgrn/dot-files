@@ -1,2 +1,2 @@
-. ~/.dot-files/profiles/bash/rc
-. ~/.dot-files/profiles/default
+. ~/.dot-files/profiles/bash/rc || true
+. ~/.dot-files/profiles/default || true
