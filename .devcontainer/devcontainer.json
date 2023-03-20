@@ -1,0 +1,66 @@
+{
+	"name": "Soar App Dev",
+	"build": {
+		"dockerfile" : "Dockerfile"
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/python:1": {
+			"installTools": true,
+			"version": "3.9.9"
+		}
+	},
+	"containerEnv": {
+		"PYTHONPATH": "/home/vscode/app-packages:/soar/site-packages:/soar/lib3:/soar/www:/soar/pycommon3",
+		"PHANTOM_BASE_URL": "https://192.168.1.96:8443",
+		"REST_BASE_URL": "https://192.168.1.96:8443/rest",
+        "PHANTOM_HOME": "/soar"
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"VisualStudioExptTeam.vscodeintellicode",
+				"VisualStudioExptTeam.intellicode-api-usage-examples",
+				"njpwerner.autodocstring",
+				"batisteo.vscode-django",
+				"eamodio.gitlens",
+				"ms-python.vscode-pylance",
+				"ms-python.pylint",
+				"ms-python.isort"
+			],
+			"settings": {
+				"pylint.args": [
+					"-E",
+					"--init-hook",
+					"import sys; sys.path.extend('${workspaceFolder}:/home/vscode/app-packages:/soar/site-packages:/soar/lib3:/soar/www:/soar/pycommon3'.split(':'))"
+				],
+				"python.analysis.extraPaths": [
+					"${workspaceFolder}",
+					"/home/vscode/app-packages",
+					"/soar/site-packages",
+					"/soar/lib3",
+					"/soar/www",
+					"/soar/pycommon3"
+				],
+				"python.autoComplete.extraPaths": [
+					"${workspaceFolder}",
+					"/home/vscode/app-packages",
+					"/soar/site-packages",
+					"/soar/lib3",
+					"/soar/www",
+					"/soar/pycommon3"
+				],
+				"python.defaultInterpreterPath": "/usr/local/python/current/bin/python",
+				"python.linting.enabled": true,
+        		"python.linting.pylintEnabled": true,
+				"python.testing.pytestArgs": [
+					"tests"
+				],
+				"python.testing.unittestEnabled": false,
+				"python.testing.cwd": "${workspaceFolder}",
+				"python.testing.pytestEnabled": true
+			}
+		}
+	},
+	"postCreateCommand": "python -m pip install --target /home/vscode/app-packages -r requirements.txt"
+}
